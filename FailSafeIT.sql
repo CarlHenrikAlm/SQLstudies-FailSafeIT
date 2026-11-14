@@ -151,7 +151,7 @@ VALUES
 
 
 -- ===========================================================================
--- FrÃ¥ga A
+-- Fråga A
 -- Lista alla konsulter med timpris Ã¶ver 1200 kr
 -- ===========================================================================
 
@@ -166,7 +166,7 @@ ORDER BY HourlyRate DESC;
 
 
 -- ===========================================================================
--- FrÃ¥ga B
+-- Fråga B
 -- Visa alla uppdrag med kund, konsult och tidsperiod
 -- ===========================================================================
 
@@ -185,10 +185,10 @@ ORDER BY a.StartDate;
 
 
 -- ===========================================================================
--- FrÃ¥ga C
+-- Fråga C
 -- Antal aktiva uppdrag per kund
 --
--- Kommentera 'AND a.EndDate >= GETDATE()' fÃ¶r att rÃ¤kna upp  samtliga uppdrag
+-- Kommentera 'AND a.EndDate >= GETDATE()' för att räkna upp  samtliga uppdrag
 -- ===========================================================================
 
 SELECT
@@ -204,8 +204,8 @@ ORDER BY TotalAssignments DESC;
 
 
 -- ===========================================================================
--- FrÃ¥ga D
--- Uppdatera timpriset fÃ¶r en specifik konsult
+-- Fråga D
+-- Uppdatera timpriset för en specifik konsult
 -- ===========================================================================
 
 UPDATE CONSULTANTS
@@ -224,7 +224,7 @@ WHERE ConsultantId = 1;
 
 
 -- ===========================================================================
--- FrÃ¥ga E
+-- Fråga E
 -- Ta bort en kund endast om kunden saknar aktiva uppdrag
 -- ===========================================================================
 
@@ -240,6 +240,7 @@ WHERE NOT EXISTS
     AND a.EndDate >= GETDATE()
 );
 
+
 DELETE FROM CUSTOMERS
 WHERE CustomerId = 11
 AND NOT EXISTS
@@ -249,3 +250,16 @@ AND NOT EXISTS
     WHERE CustomerId = 11
     AND EndDate >= GETDATE()
 );
+
+
+-- ===========================================================================
+-- Fråga E
+-- Ta bort avslutade uppdrag för kunden och därefter kunden själv
+-- ===========================================================================
+
+DELETE FROM ASSIGNMENTS
+WHERE CustomerId = 1
+  AND EndDate < GETDATE();
+
+DELETE FROM CUSTOMERS
+WHERE CustomerId = 1;
