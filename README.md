@@ -246,3 +246,4 @@ The resulting database provides a structured and scalable foundation for managin
 
 # Entity Relationship Diagram (ERD)
 ![FailSafeIT ERD](FailSafeIT.jpeg)
+
