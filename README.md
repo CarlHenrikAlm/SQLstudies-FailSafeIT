@@ -241,6 +241,7 @@ ON CUSTOMERS (OrganizationNumber);
 The project demonstrates relational database design, normalization, referential integrity, SQL querying, and basic DevSecOps principles.
 
 The resulting database provides a structured and scalable foundation for managing customers, consultants, and assignments within FailSafe IT.
+
 ---
 
 # Entity Relationship Diagram (ERD)
