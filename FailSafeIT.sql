@@ -1,11 +1,10 @@
 -- ===========================================================================
 --
---           FailSafeIT - When you don't want to flipp your tables
+--           FailSafeIT - When you don't want to flip your tables
 --                             
 -- An SQL assignment, Class: DevSecOps KYH-2026
 -- Author: Carl-Henrik Alm 
 -- ===========================================================================
-
 
 USE FailSafeIT
 GO
@@ -16,11 +15,16 @@ DROP TABLE IF EXISTS CUSTOMERS;
 GO
 
 
+
+-- ===========================================================================
+-- DDL section creates the database structure and enforces data integrity 
+-- ===========================================================================
+
 CREATE TABLE [CUSTOMERS] (
   [CustomerId] INT PRIMARY KEY IDENTITY(1,1),
   [OrganizationNumber] VARCHAR(50) NOT NULL UNIQUE,
   [CompanyName] NVARCHAR(200) NOT NULL,
-  [Email] NVARCHAR(50) NOT NULL,
+  [Email] NVARCHAR(100) NOT NULL,
   [Phone] VARCHAR(50) NOT NULL
 );
 
@@ -56,7 +60,7 @@ CREATE TABLE [ASSIGNMENTS] (
 
 
 -- ===========================================================================
---                      Testdata
+-- DML section populates the database with realistic test data
 -- ===========================================================================
 
 INSERT INTO CUSTOMERS
@@ -94,7 +98,7 @@ VALUES
 ('19881130-5678', 'Daniel', 'Svensson', 1500.00, 'Systems Administrator'),
 ('19940118-6789', 'Sara', 'Andersson', 1400.00, 'Network Administrator'),
 ('19860703-7890', 'Marcus', 'Berg', 1750.00, 'Blockchain Engineer'),
-('19970212-8901', 'Lisa', 'EkstrÃ¶m', 1100.00, 'IT Support Specialist'),
+('19970212-8901', 'Lisa', 'Ekström', 1100.00, 'IT Support Specialist'),
 ('19840427-9012', 'Fredrik', 'Holm', 1900.00, 'IT Project Manager'),
 ('19900815-0123', 'Maja', 'Persson', 1350.00, 'Business Analyst');
 
@@ -149,10 +153,9 @@ VALUES
 
 
 
-
 -- ===========================================================================
--- Fråga A
--- Lista alla konsulter med timpris Ã¶ver 1200 kr
+-- Query A
+-- Lists all consultants with an hourly rate above 1200 SEK 
 -- ===========================================================================
 
 SELECT
@@ -166,8 +169,9 @@ ORDER BY HourlyRate DESC;
 
 
 -- ===========================================================================
--- Fråga B
--- Visa alla uppdrag med kund, konsult och tidsperiod
+-- Query B
+-- Displays a complete assignment overview 
+-- by combining data from multiple tables.
 -- ===========================================================================
 
 SELECT
@@ -185,10 +189,10 @@ ORDER BY a.StartDate;
 
 
 -- ===========================================================================
--- Fråga C
--- Antal aktiva uppdrag per kund
+-- Query C
+-- Active Assignments per Customer
 --
--- Kommentera 'AND a.EndDate >= GETDATE()' för att räkna upp  samtliga uppdrag
+-- Comment out 'AND a.EndDate >= GETDATE()' to count all assignments.
 -- ===========================================================================
 
 SELECT
@@ -204,8 +208,8 @@ ORDER BY TotalAssignments DESC;
 
 
 -- ===========================================================================
--- Fråga D
--- Uppdatera timpriset för en specifik konsult
+-- Query D
+-- Consultant Rate Update
 -- ===========================================================================
 
 UPDATE CONSULTANTS
@@ -224,8 +228,8 @@ WHERE ConsultantId = 1;
 
 
 -- ===========================================================================
--- Fråga E
--- Ta bort en kund endast om kunden saknar aktiva uppdrag
+-- Query E1 
+-- Remove a Prospect Customer
 -- ===========================================================================
 
 SELECT
@@ -251,10 +255,14 @@ AND NOT EXISTS
     AND EndDate >= GETDATE()
 );
 
+SELECT *
+FROM CUSTOMERS
+WHERE CustomerId = 11;
+
 
 -- ===========================================================================
--- Fråga E
--- Ta bort avslutade uppdrag för kunden och därefter kunden själv
+-- Query E2
+-- Remove a Former Customer
 -- ===========================================================================
 
 DELETE FROM ASSIGNMENTS
@@ -263,3 +271,5 @@ WHERE CustomerId = 1
 
 DELETE FROM CUSTOMERS
 WHERE CustomerId = 1;
+
+
